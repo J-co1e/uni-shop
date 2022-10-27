@@ -1,10 +1,10 @@
 <template>
-  <div class="cart">cart</div>
+  <div class="index">index</div>
 </template>
 
 <script>
 export default {
-  name: "cart",
+  name: "index",
   components: {},
   props: {},
   data() {
