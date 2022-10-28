@@ -13,6 +13,19 @@
 			"path": "pages/my/index"
 		}
 	],
+	"subPackages": [
+		{
+			"root": "sub_pkg",
+			"pages": [
+				{
+					"path": "goods_detail/index"
+				},
+				{
+					"path": "goods_list/index"
+				}
+			]
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "白马优购",
