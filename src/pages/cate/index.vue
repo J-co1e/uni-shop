@@ -1,34 +1,39 @@
 <template>
-	<view class="scrollBox">
-		<scroll-view scroll-y="true" :style="{height:sh+'px'}" class="scrollLeft">
-			<block v-for="(item,i) in cateList" :key="i">
-				<view :class="['leftItem',i===active? 'active':'']" @click="leftItemClick(i)">{{item.cat_name}}</view>
-			</block>
-		</scroll-view>
-		<scroll-view scroll-y="true" :style="{height:sh+'px'}" class="scrollRight" :scroll-top="scrollTop">
-			<view v-for="(item2,i2) in cateList2" :key="i2">
-				<view class="rightTitle">/{{item2.cat_name}}/</view>
-				<view class="rightList">
-					<view class="rightItem" v-for="(item3,i3) in item2.children" :key="i3" @click="itemClick(item3)">
-						<image :src="item3.cat_icon"></image>
-						<text>{{item3.cat_name}}</text>
+	<view>
+		<mySearch @click="gotoSearch"></mySearch>
+		<view class="scrollBox">
+			<scroll-view scroll-y="true" :style="{height:sh+'px'}" class="scrollLeft">
+				<block v-for="(item,i) in cateList" :key="i">
+					<view :class="['leftItem',i===active? 'active':'']" @click="leftItemClick(i)">{{item.cat_name}}</view>
+				</block>
+			</scroll-view>
+			<scroll-view scroll-y="true" :style="{height:sh+'px'}" class="scrollRight" :scroll-top="scrollTop">
+				<view v-for="(item2,i2) in cateList2" :key="i2">
+					<view class="rightTitle">/{{item2.cat_name}}/</view>
+					<view class="rightList">
+						<view class="rightItem" v-for="(item3,i3) in item2.children" :key="i3" @click="itemClick(item3)">
+							<image :src="item3.cat_icon"></image>
+							<text>{{item3.cat_name}}</text>
+						</view>
 					</view>
 				</view>
-			</view>
-		</scroll-view>
+			</scroll-view>
+		</view>
 	</view>
+
 </template>
 
 <script>
+import mySearch from '../../components/mySearch/index.vue'
 export default {
 	name: "cate",
-	components: {},
+	components: {mySearch},
 	props: {},
 	data() {
 		return {
 			sh: 0,
 			active: 0,
-			scrollTop:0,
+			scrollTop: 0,
 			cateList: [],
 			cateList2: [],
 			cateList3: [],
@@ -38,7 +43,7 @@ export default {
 	methods: {
 		getScreenHeight() {
 			let s = uni.getSystemInfoSync();
-			this.sh = s.windowHeight;
+			this.sh = s.windowHeight-50;
 		},
 		async getCateList() {
 			let { data: res } = await uni.$http.get("/api/public/v1/categories");
@@ -48,13 +53,16 @@ export default {
 			this.cateList3 = this.cateList2[0].children;
 		},
 		leftItemClick(i) {
-			this.scrollTop = this.scrollTop === 0? 1:0
+			this.scrollTop = this.scrollTop === 0 ? 1 : 0;
 			this.active = i;
 			this.cateList2 = this.cateList[i].children;
 			this.cateList3 = this.cateList2[i].children;
 		},
-		itemClick(item){
-			uni.navigateTo({ url: `/sub_pkg/goods_list/index?cid=${item.cat_id}` })
+		itemClick(item) {
+			uni.navigateTo({ url: `/sub_pkg/goods_list/index?cid=${item.cat_id}` });
+		},
+		gotoSearch(){
+			uni.navigateTo({ url: '/sub_pkg/search/index' })
 		}
 	},
 	watch: {},
@@ -117,21 +125,21 @@ export default {
 			text-align: center;
 			padding: 35px 0px;
 		}
-		.rightList{
+		.rightList {
 			display: flex;
 			flex-wrap: wrap;
-			.rightItem{
+			.rightItem {
 				width: 33.33%;
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
 				margin-bottom: 10px;
-				image{
+				image {
 					width: 60px;
 					height: 60px;
 				}
-				text{
+				text {
 					font-size: 12px;
 				}
 			}

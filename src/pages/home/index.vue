@@ -1,5 +1,8 @@
 <template>
 	<div class="home">
+		<view class="searchBox">
+			<mySearch @click="searchClick"></mySearch>
+		</view>
 		<swiper indicator-dots autoplay circular indicator-active-color="white">
 			<swiper-item v-for="(item,index) in swiperList" :key="index">
 				<navigator class="swiperItem" :url="'../../sub_pkg/goods_detail/index?goods_id='+item.goods_id">
@@ -29,9 +32,10 @@
 </template>
 
 <script>
+import mySearch from "../../components/mySearch/index.vue";
 export default {
 	name: "home",
-	components: {},
+	components: { mySearch },
 	props: {},
 	data() {
 		return {
@@ -63,15 +67,19 @@ export default {
 			if (res.meta.status !== 200) return uni.$showMsg();
 			res.message.forEach((floor) => {
 				floor.product_list.forEach((item) => {
-					item.url ="/sub_pkg/goods_list/index?" + item.navigator_url.split("?")[1];
+					item.url =
+						"/sub_pkg/goods_list/index?" + item.navigator_url.split("?")[1];
 				});
-			})
-      this.floorList=res.message
+			});
+			this.floorList = res.message;
 		},
 		navClick(item) {
 			if (item.name === "分类") {
 				uni.switchTab({ url: "../cate/index" });
 			}
+		},
+		searchClick() {
+			uni.navigateTo({ url: "/sub_pkg/search/index" });
 		},
 	},
 	watch: {},
@@ -135,5 +143,10 @@ swiper {
 			margin: 5rpx 5rpx;
 		}
 	}
+}
+.searchBox {
+	position: sticky;
+	top: 0;
+	z-index: 9999;
 }
 </style>

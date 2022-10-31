@@ -22,6 +22,9 @@
 				},
 				{
 					"path": "goods_list/index"
+				},
+				{
+					"path": "search/index"
 				}
 			]
 		}
