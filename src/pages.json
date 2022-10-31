@@ -21,7 +21,11 @@
 					"path": "goods_detail/index"
 				},
 				{
-					"path": "goods_list/index"
+					"path": "goods_list/index",
+					"style":{
+						"enablePullDownRefresh": true,
+						"backgroundColor": "#f8f8f8"
+					}
 				},
 				{
 					"path": "search/index"
