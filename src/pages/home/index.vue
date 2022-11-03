@@ -33,10 +33,12 @@
 
 <script>
 import mySearch from "../../components/mySearch/index.vue";
+import badgeMix from '../../mixins/tabbar-badge'
 export default {
 	name: "home",
 	components: { mySearch },
 	props: {},
+	mixins:[badgeMix],
 	data() {
 		return {
 			swiperList: [],
@@ -89,9 +91,11 @@ export default {
 		this.getSwiperList(), this.getNavList(), this.getFloorList();
 	},
 	// 页面周期函数--监听页面初次渲染完成
-	onReady() {},
+	onReady() {
+	},
 	// 页面周期函数--监听页面显示(not-nvue)
-	onShow() {},
+	onShow() {
+	},
 	// 页面周期函数--监听页面隐藏
 	onHide() {},
 	// 页面周期函数--监听页面卸载

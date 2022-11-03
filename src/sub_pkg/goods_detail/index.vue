@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapState,mapMutations,mapGetters } from "vuex";
 export default {
 	name: "goods_detail",
 	components: {},
@@ -75,7 +76,10 @@ export default {
 				}]
 		};
 	},
-	computed: {},
+	computed: {
+    ...mapState('myCart',['cart']),
+    ...mapGetters('myCart',['total'])
+  },
 	methods: {
 		async getGoodsInfo(goods_id) {
 			let { data: res } = await uni.$http.get("/api/public/v1/goods/detail", {
@@ -99,19 +103,49 @@ export default {
 			});
 		},
     onClick(e){
-      if (e.content.text='购物车') {
+      if (e.content.text==='购物车') {
         uni.switchTab({ url: '/pages/cart/index' })
       }
     },
     buttonClick(e){
-      console.log(e);
-    }
+      if (e.content.text==='加入购物车') {
+				uni.showToast({
+					title: '加入购物车成功',
+					icon: 'success',
+				})
+        let goods = {
+          goods_id:this.goodsInfo.goods_id,
+          goods_name:this.goodsInfo.goods_name,
+          goods_price:this.goodsInfo.goods_price,
+          goods_count:1,
+          goods_small_logo:this.goodsInfo.goods_small_logo,
+          goods_state:false
+        }
+        this.addToCart(goods)
+      }
+      if (e.content.text==='立即购买') {
+        console.log(this.cart);
+      }
+    },
+    ...mapMutations('myCart',['addToCart'])
 	},
-	watch: {},
+	watch: {
+		total:{
+			handler(newVal){
+				let result = this.options.find(item=>item.text==='购物车')
+				if (result) {
+					result.info = newVal
+				}
+			},
+			immediate:true
+		}
+  },
 
 	// 页面周期函数--监听页面加载
 	onLoad(options) {
 		this.getGoodsInfo(options.goods_id);
+    let info = uni.getStorageSync('cart')
+    this.options[1].info=JSON.parse(info).length
 	},
 	// 页面周期函数--监听页面初次渲染完成
 	onReady() {},
@@ -178,17 +212,14 @@ swiper {
 	margin: 30px auto;
 }
 .goods-carts {
-	/* #ifndef APP-NVUE */
 	display: flex;
-	/* #endif */
 	flex-direction: column;
 	position: fixed;
 	left: 0;
 	right: 0;
-	/* #ifdef H5 */
 	left: var(--window-left);
 	right: var(--window-right);
-	/* #endif */
 	bottom: 0;
+  box-shadow: 0 -1px 5px #ccc;
 }
 </style>

@@ -25,10 +25,12 @@
 
 <script>
 import mySearch from '../../components/mySearch/index.vue'
+import badgeMix from '../../mixins/tabbar-badge'
 export default {
 	name: "cate",
 	components: {mySearch},
 	props: {},
+	mixins:[badgeMix],
 	data() {
 		return {
 			sh: 0,
@@ -63,18 +65,21 @@ export default {
 		},
 		gotoSearch(){
 			uni.navigateTo({ url: '/sub_pkg/search/index' })
-		}
+		},
 	},
 	watch: {},
 
 	// 页面周期函数--监听页面加载
 	onLoad() {
-		this.getScreenHeight(), this.getCateList();
+		this.getScreenHeight(), this.getCateList()
 	},
+
 	// 页面周期函数--监听页面初次渲染完成
-	onReady() {},
+	onReady() {
+	},
 	// 页面周期函数--监听页面显示(not-vue)
-	onShow() {},
+	onShow() {
+	},
 	// 页面周期函数--监听页面隐藏
 	onHide() {},
 	// 页面周期函数--监听页面卸载

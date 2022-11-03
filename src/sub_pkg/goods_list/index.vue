@@ -1,7 +1,7 @@
 <template>
 	<view class="cont">
 		<view v-for="(item,i) in queryObj.goodsList" :key="i" @click="toDetail(item)">
-			<my-goods :item="item"></my-goods>
+			<my-goods :item="item" :isChecked="isChecked"></my-goods>
 		</view>
  	</view>
 </template>
@@ -23,6 +23,7 @@ export default {
 				goodsList: [],
 				total: 0,
 			},
+			isChecked:false
 		};
 	},
 	computed: {},

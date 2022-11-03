@@ -3,23 +3,29 @@
 </template>
 
 <script>
+import badgeMix from '../../mixins/tabbar-badge'
 export default {
   name: "my",
   components: {},
   props: {},
+  mixins:[badgeMix],
   data() {
     return {}
   },
   computed: {},
-  methods: {},
+  methods: {
+  },
   watch: {},
 
   // 页面周期函数--监听页面加载
-  onLoad() {},
+  onLoad() {
+  },
   // 页面周期函数--监听页面初次渲染完成
-  onReady() {},
+  onReady() {
+  },
   // 页面周期函数--监听页面显示(not-nvue)
-  onShow() {},
+  onShow() {
+  },
   // 页面周期函数--监听页面隐藏
   onHide() {},
   // 页面周期函数--监听页面卸载
