@@ -6,14 +6,14 @@
 		<view class="amountCont">
 			合计:<text class="amount">￥{{totalPrice}}</text>
 		</view>
-		<view class="btn">
+		<view class="btn" @click="settle">
 			结算({{checkedCount}})
 		</view>
 	</view>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 export default {
 	name: "mySettle",
 	props: {},
@@ -22,15 +22,39 @@ export default {
 	},
 	computed: {
 		...mapGetters("myCart", ["checkedCount", "totalPrice", "total"]),
+		...mapGetters("myUser", ["addstr"]),
+		...mapState("myUser", ["token"]),
 		allChecked() {
 			return this.total === this.checkedCount;
 		},
 	},
 	methods: {
 		...mapMutations("myCart", ["updateAllGoodsState"]),
-    changeAllChecked(){
-      this.updateAllGoodsState(!this.allChecked)
-    }
+		changeAllChecked() {
+			this.updateAllGoodsState(!this.allChecked);
+		},
+		settle() {
+			if (!this.token) {
+				return this.showTips();
+			}
+			if (!this.checkedCount) {
+				return uni.$showMsg("请先勾选要结算的商品");
+			}
+			if (!this.addstr) {
+				return uni.$showMsg("请先选择收货地址");
+			}
+		},
+		showTips() {
+			uni.showToast({
+				title: "请先登录",
+				icon: "none",
+				mask: true,
+				duration: 1500,
+			});
+			setTimeout(() => {
+				uni.switchTab({ url: '/pages/my/index' })
+			}, 1000);
+		},
 	},
 	watch: {},
 

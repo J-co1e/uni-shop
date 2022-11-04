@@ -90,8 +90,6 @@ export default {
 		.row1 {
 			display: flex;
 			justify-content: space-between;
-			.row1Left {
-			}
 			.row1Right {
         display: flex;
         justify-content: space-between;
